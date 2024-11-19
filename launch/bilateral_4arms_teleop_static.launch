@@ -2,10 +2,10 @@
 
   <arg name="launch_driver"                     default="true"/>
 
-  <include file="$(find vsido_birateral_ros)/launch/leftside.launch">
+  <include file="$(find vsido_bilateral_ros)/launch/leftside.launch">
   </include>
 
-  <include file="$(find vsido_birateral_ros)/launch/rightside.launch">
+  <include file="$(find vsido_bilateral_ros)/launch/rightside.launch">
   </include>
 
   <node name="usb_cam_high" pkg="usb_cam" type="usb_cam_node" output="screen" >
@@ -21,7 +21,7 @@
     <param name="autoexposure" value="true"/>
   </node>
 
-<!--   <node name="usb_cam_low" pkg="usb_cam" type="usb_cam_node" output="screen" >
+   <node name="usb_cam_low" pkg="usb_cam" type="usb_cam_node" output="screen" >
     <param name="video_device" value="/dev/CAM_LOW" />
     <param name="framerate" value="60" />
     <param name="image_width" value="640" />
@@ -33,7 +33,6 @@
     <param name="focus" value="35"/>
     <param name="autoexposure" value="true"/>
   </node> 
-  -->
 
   <node name="usb_cam_left_wrist" pkg="usb_cam" type="usb_cam_node" output="screen" >
     <param name="video_device" value="/dev/CAM_LEFT_WRIST" />

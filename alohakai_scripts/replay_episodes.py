@@ -80,8 +80,7 @@ def main(args):
         # processed_base_actions = smooth_base_action(base_actions)
         processed_base_actions = base_actions
 
-#    env = make_real_env(init_node=True, setup_base=True)
-    env = make_real_env(init_node=True, setup_base=False)# not use tracer
+    env = make_real_env(init_node=True, setup_base=True)
     env.reset()
     obs_wheels = []
     obs_tracer = []
