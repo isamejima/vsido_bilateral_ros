@@ -1,10 +1,10 @@
-#include "vsido_birateral/vsido_birateral.h"
+#include "vsido_bilateral/vsido_bilateral.h"
 
-/// @brief Constructor for the VSidoBirateral
+/// @brief Constructor for the VSidoBilateral
 /// @param node_handle - ROS NodeHandle
 /// @param io_service - boost::asio::io_service
 /// @param success [out] - bool indicating if the node launched successfully
-VSidoBirateral::VSidoBirateral(ros::NodeHandle *node_handle, boost::asio::io_service &io_service, bool &success)
+VSidoBilateral::VSidoBilateral(ros::NodeHandle *node_handle, boost::asio::io_service &io_service, bool &success)
     : node(*node_handle), io(io_service)
 {
   if (!init_model())
@@ -29,12 +29,12 @@ VSidoBirateral::VSidoBirateral(ros::NodeHandle *node_handle, boost::asio::io_ser
   sendSerialCmd('s');
 
   //  robot_wait_for_joint_states();
-  ROS_INFO("V-Sido Birateral node is up!");
+  ROS_INFO("V-Sido Bilateral node is up!");
   success=true;
 }
 
-/// @brief Destructor for the VSidoBirateral
-VSidoBirateral::~VSidoBirateral()
+/// @brief Destructor for the VSidoBilateral
+VSidoBilateral::~VSidoBilateral()
 {
   sendSerialCmd('0');
   std::cout << "sendSerialCmd :" << "0" << std::endl;
@@ -43,7 +43,7 @@ VSidoBirateral::~VSidoBirateral()
   std::cout << "serial_port closed" << std::endl;
 }
 
-bool VSidoBirateral::init_model(void)
+bool VSidoBilateral::init_model(void)
 {
   node.getParam("port_name", port_name);
   node.getParam("baudrate", baudrate);
@@ -72,7 +72,7 @@ bool VSidoBirateral::init_model(void)
 
 /// @brief Initializes the port to communicate with the Dynamixel servos
 /// @param <bool> [out] - True if the port was successfully opened; False otherwise
-bool VSidoBirateral::init_port(void)
+bool VSidoBilateral::init_port(void)
 {
   serial_port_ptr = boost::shared_ptr<boost::asio::serial_port>(new boost::asio::serial_port(io));
 
@@ -110,7 +110,7 @@ bool VSidoBirateral::init_port(void)
 }
 
 /// @brief Initialize ROS Publishers
-void VSidoBirateral::init_publishers(void)
+void VSidoBilateral::init_publishers(void)
 {
   std::string puppet_node_name="/puppet_"+side_name;
   std::string master_node_name="/master_"+side_name;  
@@ -124,13 +124,13 @@ void VSidoBirateral::init_publishers(void)
 }
 
 /// @brief Initialize ROS Subscribers
-void VSidoBirateral::init_subscribers(void)
+void VSidoBilateral::init_subscribers(void)
 {
-  // sub_command_group = node.subscribe("commands/joint_group", 5, &VSidoBirateral::robot_sub_command_group, this);
+  // sub_command_group = node.subscribe("commands/joint_group", 5, &VSidoBilateral::robot_sub_command_group, this);
 }
 
 /// @brief Initialize ROS Services
-void VSidoBirateral::init_services(void)
+void VSidoBilateral::init_services(void)
 {
   std::string puppet_node_name="/puppet_"+side_name;
   std::string master_node_name="/master_"+side_name;  
@@ -138,46 +138,46 @@ void VSidoBirateral::init_services(void)
   ros::NodeHandle master_nh(master_node_name);
   ros::NodeHandle puppet_nh(puppet_node_name);
 
-  srv_master_set_operating_modes = master_nh.advertiseService("set_operating_modes", &VSidoBirateral::robot_srv_set_operating_modes, this);
-  srv_puppet_set_operating_modes = puppet_nh.advertiseService("set_operating_modes", &VSidoBirateral::robot_srv_set_operating_modes, this);
+  srv_master_set_operating_modes = master_nh.advertiseService("set_operating_modes", &VSidoBilateral::robot_srv_set_operating_modes, this);
+  srv_puppet_set_operating_modes = puppet_nh.advertiseService("set_operating_modes", &VSidoBilateral::robot_srv_set_operating_modes, this);
 
-  srv_master_set_motor_pid_gains = master_nh.advertiseService("set_motor_pid_gains", &VSidoBirateral::robot_srv_set_motor_pid_gains, this);
-  srv_puppet_set_motor_pid_gains = puppet_nh.advertiseService("set_motor_pid_gains", &VSidoBirateral::robot_srv_set_motor_pid_gains, this);
+  srv_master_set_motor_pid_gains = master_nh.advertiseService("set_motor_pid_gains", &VSidoBilateral::robot_srv_set_motor_pid_gains, this);
+  srv_puppet_set_motor_pid_gains = puppet_nh.advertiseService("set_motor_pid_gains", &VSidoBilateral::robot_srv_set_motor_pid_gains, this);
 
-  srv_master_set_motor_registers = master_nh.advertiseService("set_motor_registers", &VSidoBirateral::robot_srv_set_motor_registers, this);
-  srv_puppet_set_motor_registers = puppet_nh.advertiseService("set_motor_registers", &VSidoBirateral::robot_srv_set_motor_registers, this);
+  srv_master_set_motor_registers = master_nh.advertiseService("set_motor_registers", &VSidoBilateral::robot_srv_set_motor_registers, this);
+  srv_puppet_set_motor_registers = puppet_nh.advertiseService("set_motor_registers", &VSidoBilateral::robot_srv_set_motor_registers, this);
 
-  srv_master_get_motor_registers = master_nh.advertiseService("get_motor_registers", &VSidoBirateral::robot_srv_get_motor_registers, this);
-  srv_puppet_get_motor_registers = puppet_nh.advertiseService("get_motor_registers", &VSidoBirateral::robot_srv_get_motor_registers, this);
+  srv_master_get_motor_registers = master_nh.advertiseService("get_motor_registers", &VSidoBilateral::robot_srv_get_motor_registers, this);
+  srv_puppet_get_motor_registers = puppet_nh.advertiseService("get_motor_registers", &VSidoBilateral::robot_srv_get_motor_registers, this);
 
   // alohaのcodeでモデル情報が必要
-  srv_master_get_robot_info = master_nh.advertiseService("get_robot_info", &VSidoBirateral::master_srv_get_robot_info, this);
-  srv_puppet_get_robot_info = puppet_nh.advertiseService("get_robot_info", &VSidoBirateral::puppet_srv_get_robot_info, this);
+  srv_master_get_robot_info = master_nh.advertiseService("get_robot_info", &VSidoBilateral::master_srv_get_robot_info, this);
+  srv_puppet_get_robot_info = puppet_nh.advertiseService("get_robot_info", &VSidoBilateral::puppet_srv_get_robot_info, this);
 
   // record_episode.pyのopening_ceremony内にて、エンドエフェクタのトルクOFFをしているため、バイラテラル開始のトリガーとして利用。
-  srv_master_torque_enable = master_nh.advertiseService("torque_enable", &VSidoBirateral::master_srv_torque_enable, this);//ここだけ例外
-  srv_puppet_torque_enable = puppet_nh.advertiseService("torque_enable", &VSidoBirateral::robot_srv_torque_enable, this);  
+  srv_master_torque_enable = master_nh.advertiseService("torque_enable", &VSidoBilateral::master_srv_torque_enable, this);//ここだけ例外
+  srv_puppet_torque_enable = puppet_nh.advertiseService("torque_enable", &VSidoBilateral::robot_srv_torque_enable, this);  
  
-  srv_master_reboot_motors = master_nh.advertiseService("reboot_motors", &VSidoBirateral::robot_srv_reboot_motors, this);
-  srv_puppet_reboot_motors = puppet_nh.advertiseService("reboot_motors", &VSidoBirateral::robot_srv_reboot_motors, this);  
+  srv_master_reboot_motors = master_nh.advertiseService("reboot_motors", &VSidoBilateral::robot_srv_reboot_motors, this);
+  srv_puppet_reboot_motors = puppet_nh.advertiseService("reboot_motors", &VSidoBilateral::robot_srv_reboot_motors, this);  
 }
 
 /// @brief Initialize ROS Timers
-void VSidoBirateral::init_timers(void)
+void VSidoBilateral::init_timers(void)
 {
   // 定期送信用だが、シリアル受信割り込み毎にpublishする仕様に変更したのでコメントアウト
-  // tmr_joint_states = node.createTimer(ros::Duration(1.0 / timer_hz), &VSidoBirateral::robot_update_joint_states, this);
+  // tmr_joint_states = node.createTimer(ros::Duration(1.0 / timer_hz), &VSidoBilateral::robot_update_joint_states, this);
 }
 
 /// @brief ROS Timer publishes them to the joint_states topic
 /// @param e - TimerEvent message [unused]
-void VSidoBirateral::robot_update_joint_states(const ros::TimerEvent &e)
+void VSidoBilateral::robot_update_joint_states(const ros::TimerEvent &e)
 {
   publish_joint_states();
 }
 
 /// @brief publishes to the joint_states topic
-void VSidoBirateral::publish_joint_states()
+void VSidoBilateral::publish_joint_states()
 {
   std::vector<int16_t> p_vec;
   bool flag = false;
@@ -273,7 +273,7 @@ void VSidoBirateral::publish_joint_states()
 }
 
 /// @brief publishes to the joint_states topic
-void VSidoBirateral::publish_joint_states2()
+void VSidoBilateral::publish_joint_states2()
 {
   std::vector<int16_t> d_vec;
   bool flag = false;
@@ -385,7 +385,7 @@ void VSidoBirateral::publish_joint_states2()
 }
 
 /// @brief Waits until first JointState message is received
-bool VSidoBirateral::sendSerialCmd(unsigned char ch)
+bool VSidoBilateral::sendSerialCmd(unsigned char ch)
 {
   if (!serial_port_ptr)
   {
@@ -414,7 +414,7 @@ bool VSidoBirateral::sendSerialCmd(unsigned char ch)
   return true;
 }
 
-void VSidoBirateral::doReceive(void)
+void VSidoBilateral::doReceive(void)
 {
   if (!serial_port_ptr->is_open())
   {
@@ -425,13 +425,13 @@ void VSidoBirateral::doReceive(void)
   // 非同期受信
   // 改行まで
   // callbackでdata_received関数を呼ぶ
-  boost::asio::async_read_until(*serial_port_ptr, response_data, "\n", boost::bind(&VSidoBirateral::data_received, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
+  boost::asio::async_read_until(*serial_port_ptr, response_data, "\n", boost::bind(&VSidoBilateral::data_received, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred));
 
   // ctrl+c受付用
   boost::this_thread::interruption_point();
 }
 
-void VSidoBirateral::data_received(const boost::system::error_code &error, size_t bytes_transferred)
+void VSidoBilateral::data_received(const boost::system::error_code &error, size_t bytes_transferred)
 {
   if (bytes_transferred > 0)
   {
@@ -501,7 +501,7 @@ void VSidoBirateral::data_received(const boost::system::error_code &error, size_
   doReceive();
 }
 
-bool VSidoBirateral::master_srv_torque_enable(interbotix_xs_msgs::TorqueEnable::Request &req, interbotix_xs_msgs::TorqueEnable::Response &res)
+bool VSidoBilateral::master_srv_torque_enable(interbotix_xs_msgs::TorqueEnable::Request &req, interbotix_xs_msgs::TorqueEnable::Response &res)
 {
   // responseは使っていない
 
@@ -519,7 +519,7 @@ bool VSidoBirateral::master_srv_torque_enable(interbotix_xs_msgs::TorqueEnable::
     return true;
     }
     else {
-    //birateral startした直後の受信は無視      
+    //bilateral startした直後の受信は無視      
       once_flag=false;
     return true;      
     }
@@ -528,7 +528,7 @@ bool VSidoBirateral::master_srv_torque_enable(interbotix_xs_msgs::TorqueEnable::
   return true;
 }
 
-bool VSidoBirateral::master_get_motor_configs(void)
+bool VSidoBilateral::master_get_motor_configs(void)
 {
   std::vector<MotorInfo> motor_info_vec;
   std::vector<std::string> gripper_order;
@@ -712,7 +712,7 @@ bool VSidoBirateral::master_get_motor_configs(void)
   return true;
 }
 
-bool VSidoBirateral::puppet_get_motor_configs(void)
+bool VSidoBilateral::puppet_get_motor_configs(void)
 {
   std::vector<MotorInfo> motor_info_vec;
   std::vector<std::string> gripper_order;
@@ -894,7 +894,7 @@ bool VSidoBirateral::puppet_get_motor_configs(void)
   return true;
 }
 
-bool VSidoBirateral::master_srv_get_robot_info(interbotix_xs_msgs::RobotInfo::Request &req, interbotix_xs_msgs::RobotInfo::Response &res)
+bool VSidoBilateral::master_srv_get_robot_info(interbotix_xs_msgs::RobotInfo::Request &req, interbotix_xs_msgs::RobotInfo::Response &res)
 {
   std::vector<MotorInfo> motor_info_vec=master_yaml_configs.motor_info_vec;
   std::vector<std::string> gripper_order=master_yaml_configs.gripper_order; 
@@ -970,7 +970,7 @@ bool VSidoBirateral::master_srv_get_robot_info(interbotix_xs_msgs::RobotInfo::Re
   return true;
 }
 
-bool VSidoBirateral::puppet_srv_get_robot_info(interbotix_xs_msgs::RobotInfo::Request &req, interbotix_xs_msgs::RobotInfo::Response &res)
+bool VSidoBilateral::puppet_srv_get_robot_info(interbotix_xs_msgs::RobotInfo::Request &req, interbotix_xs_msgs::RobotInfo::Response &res)
 {
   std::vector<MotorInfo> motor_info_vec=puppet_yaml_configs.motor_info_vec;
   std::vector<std::string> gripper_order=puppet_yaml_configs.gripper_order; 

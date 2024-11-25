@@ -4,7 +4,7 @@
 
   <arg name="side_name"                default="left"/>
   <arg name="port_name"                default="/dev/ttyACM0"/>  
-  <arg name="baudrate"                 default="1000000"/>
+  <arg name="baudrate"                 default="2000000"/>
   
   <arg name="robot_name_master_left"	default="master_left"/>
   <arg name="robot_name_puppet_left"	default="puppet_left"/> 
@@ -12,8 +12,8 @@
   <arg name="master_modes"                 default="$(find aloha)/config/master_modes_left.yaml"/>
   <arg name="puppet_modes"                 default="$(find aloha)/config/puppet_modes_left.yaml"/>
 
-  <arg name="robot_model_master"                default="wx250s"/>
-  <arg name="robot_model_puppet"                default="vx300s"/>  
+  <arg name="robot_model_master"                default="asratec_master"/>
+  <arg name="robot_model_puppet"                default="asratec_puppet"/>  
 
   <arg name="master_motor_configs"                default="$(find interbotix_xsarm_control)/config/wx250s.yaml"/>
   <arg name="puppet_motor_configs"                default="$(find interbotix_xsarm_control)/config/vx300s.yaml"/>  

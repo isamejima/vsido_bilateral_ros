@@ -1,5 +1,5 @@
-#ifndef VSIDO_BIRATERAL_H_
-#define VSIDO_BIRATERAL_H_
+#ifndef VSIDO_BILATERAL_H_
+#define VSIDO_BILATERAL_H_
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
@@ -44,7 +44,7 @@
 #define B1000000 0010010
 #endif
 
-#define SERIAL_BAUDRATE 1000000      // V-Sido Birateral Board is preset to 1M baud
+#define SERIAL_BAUDRATE 1000000      // V-Sido bilateral Board is preset to 1M baud
 #define SERIAL_DEVICE "/dev/ttyACM0" // Default Serial Port Name
 
 struct YAMLConfigs
@@ -62,17 +62,17 @@ struct YAMLConfigs
 };
 
 // VSido Biratera Class
-class VSidoBirateral
+class VSidoBilateral
 {
 public:
-  /// @brief Constructor for the VSidoBirateralROS
+  /// @brief Constructor for the VSidobilateralROS
   /// @param node_handle - ROS NodeHandle
   /// @param success [out] - bool indicating if the node launched successfully
-  //  explicit VSidoBirateral(ros::NodeHandle *node_handle, bool &success);
-  explicit VSidoBirateral(ros::NodeHandle *node_handle, boost::asio::io_service &io_service, bool &success);
+  //  explicit VSidoBilateral(ros::NodeHandle *node_handle, bool &success);
+  explicit VSidoBilateral(ros::NodeHandle *node_handle, boost::asio::io_service &io_service, bool &success);
 
-  /// @brief Destructor for the VSidoBirateralROS
-  ~VSidoBirateral();
+  /// @brief Destructor for the VSidobilateralROS
+  ~VSidoBilateral();
 
   void robot_get_joint_state(std::string const &name, float *position = NULL, float *velocity = NULL, float *effort = NULL);
 
@@ -162,7 +162,7 @@ private:
   bool master_get_motor_configs(void);
   bool puppet_get_motor_configs(void);  
 
-  /// @brief Initializes the port to communicate with V-Sido Birateral Board
+  /// @brief Initializes the port to communicate with V-Sido bilateral Board
   /// @param <bool> [out] - True if the port was successfully opened; False otherwise
   bool init_port(void);
 

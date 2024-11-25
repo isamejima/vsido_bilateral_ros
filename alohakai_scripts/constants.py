@@ -2,11 +2,11 @@
 import pathlib
 import os
 
-DATA_DIR = os.path.expanduser('~/data')
+DATA_DIR = '/datasets'
 TASK_CONFIGS = {
     'aloha_mobile_dummy':{
         'dataset_dir': DATA_DIR + '/aloha_mobile_dummy',
-        'episode_len': 1000,
+        'episode_len': 300,
         'camera_names': ['cam_high', 'cam_left_wrist', 'cam_right_wrist']
     },
 

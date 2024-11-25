@@ -16,7 +16,6 @@ from interbotix_xs_modules.arm import InterbotixManipulatorXS
 import IPython
 e = IPython.embed
 
-
 def opening_ceremony(master_bot_left, master_bot_right, puppet_bot_left, puppet_bot_right):
     """ Move all 4 robots to a pose where it is easy to start demonstration """
     # reboot gripper motors, and set operating modes for all motors
@@ -51,7 +50,7 @@ def opening_ceremony(master_bot_left, master_bot_right, puppet_bot_left, puppet_
     master_bot_left.dxl.robot_torque_enable("single", "gripper", False)
     master_bot_right.dxl.robot_torque_enable("single", "gripper", False)
     print(f'Close the gripper to start')
-    close_thresh = -0.3
+    close_thresh = -1.4
     pressed = False
     while not pressed:
         gripper_pos_left = get_arm_gripper_positions(master_bot_left)

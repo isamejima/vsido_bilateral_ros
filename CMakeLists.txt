@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(vsido_birateral_ros)
+project(vsido_bilateral_ros)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
@@ -71,8 +71,8 @@ include_directories(
 ## Specify libraries to link a library or executable target against
 ## Add cmake target dependencies of the executable
 
-add_executable(vsido_birateral_node src/vsido_birateral_node.cpp src/vsido_birateral.cpp)
-target_link_libraries(vsido_birateral_node ${catkin_LIBRARIES} yaml-cpp)
+add_executable(vsido_bilateral_node src/vsido_bilateral_node.cpp src/vsido_bilateral.cpp)
+target_link_libraries(vsido_bilateral_node ${catkin_LIBRARIES} yaml-cpp)
 
 #############
 ## Install ##
