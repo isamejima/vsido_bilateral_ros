@@ -1,0 +1,9 @@
+SUBSYSTEM=="tty", ATTRS{serial}=="FT94VJ21", ENV{ID_MM_DEVICE_IGNORE}="1", ATTR{device/latency_timer}="1", SYMLINK+="ttyDXL_master_left"
+SUBSYSTEM=="tty", ATTRS{serial}=="FT951E75", ENV{ID_MM_DEVICE_IGNORE}="1", ATTR{device/latency_timer}="1", SYMLINK+="ttyDXL_puppet_left"
+SUBSYSTEM=="tty", ATTRS{serial}=="FT94VJ1Y", ENV{ID_MM_DEVICE_IGNORE}="1", ATTR{device/latency_timer}="1", SYMLINK+="ttyDXL_master_right"
+SUBSYSTEM=="tty", ATTRS{serial}=="FT94W5M3", ENV{ID_MM_DEVICE_IGNORE}="1", ATTR{device/latency_timer}="1", SYMLINK+="ttyDXL_puppet_right"
+SUBSYSTEM=="tty", ATTRS{serial}=="FT94VTU5", ENV{ID_MM_DEVICE_IGNORE}="1", ATTR{device/latency_timer}="1", SYMLINK+="ttyDXL_wheels"
+
+SUBSYSTEM=="video4linux", ATTRS{serial}=="AB9774EF", ATTR{index}=="0", ATTRS{idProduct}=="085c", ATTR{device/latency_timer}="1", SYMLINK+="CAM_LEFT_WRIST"
+SUBSYSTEM=="video4linux", ATTRS{serial}=="858774EF", ATTR{index}=="0", ATTRS{idProduct}=="085c", ATTR{device/latency_timer}="1", SYMLINK+="CAM_RIGHT_WRIST"
+SUBSYSTEM=="video4linux", ATTRS{serial}=="EAC774EF", ATTR{index}=="0", ATTRS{idProduct}=="085c", ATTR{device/latency_timer}="1", SYMLINK+="CAM_HIGH"
